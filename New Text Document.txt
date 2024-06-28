@@ -1,0 +1,117 @@
+Git server and clients 
+
+-first create 3 instances in aws 
+-then open the first instance in terminal 
+
+######## server ##########
+
+sudo su -
+hostnamectl set-hostname git-server.example.com
+yum install git 
+mkdir /project
+cd /project
+git init --bare(now it will act as server)
+vim /etc/ssh/sshd_config(change PermitRootLogin yes , PasswordAuthentication yes)
+systemctl restart sshd
+systemctl enable sshd
+ip a s(to view ip add)
+cat ~/.ssh/authorized_keys(to check the keys connected to server)
+######## Done with server #############
+
+#########   dev1 client #################################
+
+sudo su -
+hostnamectl set-hostname dev1.example.com
+yum install git 
+mkdir /dev1
+cd /dev1
+git init
+cd
+ssh-keygen
+cd .ssh/
+ssh-copy-id root@ipofserver
+cd
+vim index.html
+git add index.html
+git commit -m "first" index.html
+git remote add origin root@ipofserver:/project
+git push origin master
+//now if you want to commit again 
+vim index.html(make changes)
+git add index.html
+git commit -m "second" index.html
+git push origin master(dont have to run git remote add origin root@ipofserver:/project again)
+thats it
+
+###########    dev3 ###################
+now dev3 is a new developer ants to work on the ongoing project 
+ sudo su -
+hostnamectl set-hostname dev3.example.com
+yum install git
+mkdir /dev-3
+cd /dev3
+cd
+cd 
+cd project/
+git clone root@ipofserver:/project
+ls -a (you will see the files in server)
+now you can do changes in it
+
+server and clients with GitHub as server
+
+###### devone ###########
+
+create devone instance 
+open in terminal 
+sudo su -
+hostnamectl set-hostname devone.example.com
+yum install git
+mkdir /devone
+cd /devone
+git init
+cd
+ssh-keygen
+cd .ssh/
+cat id_rsa.pub(copy this id) 
+
+Now create a repo in GitHub
+open GitHub settings and add ssh key init( which you have copied earlier)
+
+
+now in terminal
+vim hello.html
+git add hello.html
+git commit -m "git" hello.html
+now goto GitHub and copy all the codes available in the bottom of new repo in ssh format( example :-git remote add origin git@github.com:rithik324/git-practice.git )
+git branch -M main(to change the branch name to main)
+git branch(to check the branch)
+git push origin main
+
+
+///we are done pushing the code to GitHub repo
+
+go to GitHub and check there 
+
+if you want to do any other commits
+vim hello.html
+git add hello.html
+git commit -m "sec" hello.html
+git push origin main
+
+
+//we are done now 
+//when new dev wants to work on the code :-
+create instance and install and init git
+then goto repo click on  code button then copy the ssh
+come to terminal and 
+git clone paste the key here
+cd repo name
+vim hello.html
+git add hello.html
+git commit -m "secc" hello.html
+git push origin main
+
+//done with git on github
+
+
+
