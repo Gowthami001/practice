@@ -1,0 +1,48 @@
+EFS 
+
+
+
+CREATE 2 INSTANCE IN DIFFERENT REGION
+SECURITY RULE - SSH , NFS
+DIFFERENT ZONES 1A , 1B
+
+
+
+CREATE EFS
+
+SELECT EFS CREATED ---> NETWORK ----> EDIT SECURITY RULE
+ATTACH -----> COPY THE MOUNT 
+
+
+TERMINAL 
+
+sudo su -
+yum install nfs-utils -y
+rpmquery nfs-utils
+mkdir efs
+paste the mount via ip
+df -h
+cd /root/efs
+touch aishu.txt{1..10}
+ll
+
+
+REPLICATION
+
+CREATE REPLICATION TO DESTINATION
+
+CREATE NEW INSTANCE IN DIFFERENT REGION ALLOWING SSH NFS
+CLICK FILESYSTEM ----- MOUNT TARGET ------ SUBNET ID ------ SECURITY RULE
+COPY THE MOUNT 
+
+TERMINAL 
+
+sudo su -
+yum install nfs-utils -y
+rpmquery nfs-utils
+mkdir efs
+paste the mount via ip
+df -h
+ll
+
+  

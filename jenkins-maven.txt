@@ -1,0 +1,76 @@
+jenkins-maven
+
+USE AMAZON LINUX ALLOW SSH AND CUSTOM TCP WITH PORT NO 8080
+
+sudo su -
+yum install git
+yum update   (Jenkins on AWS)
+wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo
+rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+dnf install java-17-amazon-corretto -y
+yum install jenkins -y
+systemctl enable Jenkins
+systemctl start Jenkins
+systemctl status Jenkins
+-------------------------
+cd /opt/
+wget https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.tar.gz(apache maven download)
+ls
+tar -xvzf apache-maven-3.9.8-bin.tar.gz
+ls
+cd apache-maven-3.9.8/ -----------> copy the path and paste in notepad
+pwd
+find / -name java-17*--------------->copy the path and paste in notepad
+cd
+vim .bash_profile
+
+M2_HOME=/opt/apache-maven-3.9.8
+M2=/opt/apache-maven-3.9.8/bin
+JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto.x86_64
+PATH=$PATH:$HOME/bin:$JAVA_HOME:$M2_HOME:$M2
+
+source .bash_profile
+echo $PATH
+cd /opt/apache-maven-3.9.8/bin
+./mvn -v
+
+
+
+connect the Jenkins 
+public id :8080
+cd 
+cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Jenkins configure tokens generate copy manually 
+go to GitHub  webhook create webhook with https:public:8080/github-wehook/
+
+manage
+plugins 
+git server install 
+maven integration install 
+restart
+
+manage
+tools
+jdk give name and JAVA_HOME path
+maven --- give maven name and M2_HOME PATH 
+
+new item 
+maven project 
+git -----> give the GitHub path of existing repo {click on code copy and paste}
+*/maven 
+save 
+
+BUILD 
+job 1
+copy 
+/var/lib/jenkins/workspace/mav1
+cd /var/lib/jenkins/workspace/mav1
+ls
+
+
+
+
+
+

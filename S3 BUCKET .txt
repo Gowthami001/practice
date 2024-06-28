@@ -1,0 +1,21 @@
+S3 BUCKET 
+
+
+sudo su -
+sudo yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel
+git clone https://github.com/s3fs-fuse/s3fs-fuse.git
+cd s3fs-fuse
+./autogen.sh
+./configure --prefix=/usr --with-openssl
+make
+sudo make install
+which s3fs
+cd
+vim /etc/passwd-s3fs
+iam user credentials
+chmod 640 /etc/passwd-s3fs
+mkdir bucket
+s3fs practicebucket415 bucket -o passwd_file=/etc/passwd-s3fs
+df -h
+cd /root/bucket
+ll

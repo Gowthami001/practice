@@ -1,0 +1,174 @@
+EBS
+
+launch an instance with zone 2b allowing only ssh security rule
+connect the instance 
+sudo su -
+lsblk 
+
+go to volumes
+edit the root volume by giving the name root_vol
+create volume
+gp2
+16GIB
+zone 2b
+create 
+rename to data vol
+
+select the data vol
+attach volume
+select the running instance 
+select device name /dev/sdb
+
+go to terminal
+lsblk
+mkfs.ext4 /dev/xvdb
+blkid
+mkdir /aishu
+mount /dev/xvdb /aishu/
+cd /aishu/
+touch aishu.txt{1..100}
+ll
+cd
+blkid copy the data device name uid
+vim /etc/fstab
+paste the uid /aishu ext4 default 0 0
+systemctl daemon-reload
+mount -a
+df -h
+cd /aishu/
+ll
+
+
+storing the same data in different zones
+
+launch an instance in different zone like 2a
+connect ssh
+lsblk
+
+go to snapshot
+create snapshot
+resource typle select volume
+volume ID -----> Data volume
+give description ---> this is a data volume
+create snapshot
+
+select the snapshot
+actions
+create volume from snapshot
+gp2
+16GIB
+us east 2a
+create volume
+
+select volume
+click on actions
+attach volume
+select the instance
+select the device name
+attach
+
+go to terminal
+blkid 
+mkdir /data
+mount /dev/xvdb /data/
+lsblk
+cd /data/
+ll
+  
+storage in different region
+
+go to the existing instance 
+click on snapshot
+select and go to actions
+copy snapshot
+give the destination whichever eg : ap-southeast
+copy snapshot
+
+duplicate the instance (copy the link)
+
+go to the destinated snapshot u had given before eg Singapore
+click on snapshot
+check if the snapshot is reflected
+now launch instance the Singapore region 
+redhat
+create new pair 
+edit the subnet - 1a
+create security singa-sc ssh only
+launch
+
+terminal
+ssh connect
+sudo su -
+lsblk
+snapshot ----> actions
+create volume from snapshot
+rename to data_vol
+select the data vol and attach the volume with instance id and device launch
+lsblk
+mkdir /Singapore
+mount /dev/xvdbb /Singapore
+lsblk
+ll
+cd
+
+RESIZING THE VOLUMES
+
+select the existing volume and click go to action_---> modify volume
+gp2
+24GiB
+modify
+
+terminal 
+lsblk----->24GiB
+df -h------> 16GiB
+blkid check ur datavolume
+resize2fs  /dev/xvdb
+df -h ------> 24GiB
+cd /Singapore
+ll
+
+
+IF VOLUME IS NOT UTILIZED PROPERLY IT GETS WASTED SO WE ARE CREATING THE  new volume copying the same data in smaller storage
+
+create a volume
+gp2
+15GiB
+same zone
+create the volume
+attach the volume to the instance -----> rename
+
+terminal 
+blkid
+mkfs.ext4 /dev/xvdc
+mkdir /tech/
+mount /dev/xvdc /tech/
+cd /Singapore
+ll
+cp -rvf * /tech/
+cd 
+umount /Singapore
+df -h
+come to dashboard - delete volume.
+
+
+
+ 
+
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

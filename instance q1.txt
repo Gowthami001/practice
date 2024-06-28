@@ -1,0 +1,22 @@
+
+new question
+
+
+launch an instance
+
+
+terminal 
+
+yum install httpd -y
+cd /var/www/html
+echo "hello" > index.html
+systemctl start httpd
+systemctl enable httpd
+lsblk
+mkfs.ext4 /dev/xvdbb
+mkdir /aishu
+mount /dev/xvdbb /aishu/
+lsblk
+cd /aishu
+touch hello.txt{1..10}
+ll

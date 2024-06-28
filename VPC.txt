@@ -1,0 +1,148 @@
+VPC
+
+
+create VPC
+IGW CREATE 
+ATTACH IGW
+SUBNET - WEBSUBNET 
+         1a
+         enable public
+         10.0.0.0/16
+         10.0.1.0/24
+      - DBSUBNET 
+        1b 
+        disable public
+        10.0.0.0/16
+        10.0.2.0/24
+
+create Route table
+edit route 
+add 0.0.0.0/0 Indian gateway
+save 
+
+subnet associations
+check websubnet 
+save
+
+
+
+duplicate the aws 
+
+launch instance 
+select the vpc
+name as webserver
+websubnet 
+security create allow ssh  , http 
+create
+
+name as dbserver
+dbsubnet
+security create allow ssh, http
+create 
+
+
+conncet to terminal
+
+ssh connect 
+yum install httpd -y
+cd /var/www/html
+touch "hello" > indext.html
+ll
+systemctl start httpd
+systemctl enable httpd
+copy public and paste in google 
+
+ping public ip
+ping private ip
+
+vim region.pem
+chmod 600 region.pem
+
+ssh -i region.pem ec2-user@privateip of dbserver
+
+ping privateip
+
+create natgateway 
+
+create route for nat or private
+edit 
+allow 0.0.0.0/0 nategateway save
+subnet associations --- check dev server
+
+ping publicip
+
+
+PEERING CONNECTION
+
+create VPC,IGW,SUBNET,ROUTETABLE -IGW , EC2 20.0.0.0/16   20.0.1.0/24 20.0.2.0/24
+
+in region one
+
+peering connection ---- create peering 
+NAME
+VPC ID (REGION 1)
+MY ACC
+ANOTHER REGION
+SELECT REGION
+VPC ID (REGION 2)
+CREATE
+
+AFTER PEERING (REGION 2)
+ACCEPT REQUEST
+
+ROUTE TABLE(REGION 1)
+EDIT ROUTE
+COPY ACCEPTED CIDR ON REGION 2 (BY PEERING CONNECTION)
+SAVE CHANGES
+
+ROUTE TABLE (REGION 2)
+EDIT ROUTE
+COPY ACCEPTED CIDR ON REGION 1 (BY PEERING CONNECTION ID)
+SAVE CHANGES
+
+REGION 1 TERMINAL 
+
+SUDO SU -
+vim /etc/ssh/sshd_config permitlogin yes , password yes
+systemctl restsart sshd
+systemctl enable sshd
+passwd root
+ip a s
+cat > hello.txt
+hello region 1
+rsync hello.txt root@ip a s of region 2:/tmp
+
+go to region 2 
+cd /tmp
+ll
+hello.txt
+
+REGION 2 TERMINAL
+
+vim /etc/ssh/sshd_config permitlogin yes , password yes
+systemctl restsart sshd
+systemctl enable sshd
+passwd root
+ip a s
+cat > AISHU.txt
+hello region 2
+rsync aishu.txt root@ip a s of region 1:/tmp
+go to region 1 
+cd /tmp
+ll
+aishu.txt
+
+
+
+
+
+
+
+
+ 
+ 
+
+
+
+
+ 
